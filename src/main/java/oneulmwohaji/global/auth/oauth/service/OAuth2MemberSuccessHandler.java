@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.net.URI;
 import java.util.HashMap;
 import java.util.Map;
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
@@ -21,7 +22,6 @@ import org.springframework.web.util.UriComponentsBuilder;
 @Slf4j
 public class OAuth2MemberSuccessHandler extends SimpleUrlAuthenticationSuccessHandler {
     private final JwtProvider jwtProvider;
-
     @Override
     public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response,
                                         Authentication authentication) throws IOException {
@@ -40,30 +40,32 @@ public class OAuth2MemberSuccessHandler extends SimpleUrlAuthenticationSuccessHa
         return oauthAttributes.getOauthId();
     }
 
-
-
-
     private void redirect(HttpServletRequest request, HttpServletResponse response,
                           String oAuthId) throws IOException {
         String accessToken = jwtProvider.createAccessToken(oAuthId);  // Access Token 생성
         String refreshToken = jwtProvider.createRefreshToken(oAuthId);   // Refresh Token 생성
+        Cookie cookie = createHttpOnlyCookie(refreshToken);
 
-        String uri = createURI(accessToken, refreshToken).toString(); // Access Token과 Refresh Token을 포함한 URL을 생성
+        response.addHeader("accessToken", accessToken);
+        response.addCookie(cookie);
+        String uri = createURI().toString(); // Access Token과 Refresh Token을 포함한 URL을 생성
         getRedirectStrategy().sendRedirect(request, response, uri);
     }
 
-    // Redirect URI 생성. JWT를 쿼리 파라미터로 담아 전달한다.
-    private URI createURI(String accessToken, String refreshToken) {
-        MultiValueMap<String, String> queryParams = new LinkedMultiValueMap<>();
-        queryParams.add("access_token", accessToken);
-        queryParams.add("refresh_token", refreshToken);
+    private Cookie createHttpOnlyCookie(String refreshToken) {
+        Cookie cookie = new Cookie("refreshToken", refreshToken);
+        cookie.setSecure(true);
+        cookie.setHttpOnly(true);
+        return cookie;
+    }
 
+    // Redirect URI 생성. JWT를 쿼리 파라미터로 담아 전달한다.
+    private URI createURI() {
         return UriComponentsBuilder
                 .newInstance()
                 .scheme("https")
                 .host("example")
                 .path("/oauth")
-                .queryParams(queryParams)
                 .build()
                 .toUri();
     }
