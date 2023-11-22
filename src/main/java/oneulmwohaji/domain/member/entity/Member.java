@@ -7,10 +7,12 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import oneulmwohaji.global.common.entity.BaseEntity;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.oauth2.core.user.OAuth2User;
@@ -20,7 +22,7 @@ import org.springframework.security.oauth2.core.user.OAuth2User;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class Member implements UserDetails, OAuth2User {
+public class Member extends BaseEntity implements UserDetails, OAuth2User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -54,7 +56,7 @@ public class Member implements UserDetails, OAuth2User {
 
     @Override
     public String getUsername() {
-        return null;
+        return username;
     }
 
     @Override
