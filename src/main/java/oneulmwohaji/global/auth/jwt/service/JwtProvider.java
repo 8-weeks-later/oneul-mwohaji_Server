@@ -1,5 +1,7 @@
 package oneulmwohaji.global.auth.jwt.service;
 
+import static oneulmwohaji.global.auth.oauth.ConstantValue.*;
+
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.Jwts;
@@ -19,6 +21,8 @@ import oneulmwohaji.global.auth.jwt.exception.TokenException;
 import oneulmwohaji.global.auth.jwt.exception.TokenExpiredException;
 import oneulmwohaji.global.auth.jwt.exception.TokenUnsupportedException;
 import oneulmwohaji.global.auth.jwt.MemberPrincipal;
+import oneulmwohaji.global.auth.oauth.ConstantValue;
+import org.apache.tomcat.util.bcel.Const;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -44,13 +48,13 @@ public class JwtProvider {
 
     public String createAccessToken(String OAuthId) {
         Claims claims = Jwts.claims();
-        claims.put("oauthId", OAuthId);
+        claims.put(OAUTH_ID, OAuthId);
         return createToken(claims, accesesTokenexpirationPeriod);
     }
 
     public String createRefreshToken(String OAuthId) {
         Claims claims = Jwts.claims();
-        claims.put("oauthId", OAuthId);
+        claims.put(OAUTH_ID, OAuthId);
         return createToken(claims, refreshTokenexpirationPeriod);
     }
 
@@ -105,7 +109,7 @@ public class JwtProvider {
                 .setSigningKey(secret.getBytes())
                 .parseClaimsJws(token)
                 .getBody()
-                .get("oauthId",
+                .get(OAUTH_ID,
                         String.class);
     }
 }
