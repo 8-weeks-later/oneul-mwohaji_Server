@@ -1,11 +1,14 @@
 package oneulmwohaji.global.auth.oauth.entity;
 
+import static oneulmwohaji.global.auth.oauth.ConstantValue.*;
+
 import java.util.List;
 import java.util.Map;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.ToString;
 import oneulmwohaji.domain.member.entity.Member;
+import oneulmwohaji.global.auth.oauth.ConstantValue;
 
 @Getter
 @ToString
@@ -16,32 +19,24 @@ public class OAuthAttributes {
     private String name;
     private String email;
     private String oAuthProvider;
-    private String gender;
-    private String ageRange;
-    private String profileImageUrl;
 
     @Builder
-    public OAuthAttributes(String oauthId,Map<String, Object> attributes, String nameAttributesKey,
-                           String name, String email,String oAuthProvider, String gender, String ageRange, String profileImageUrl) {
+    public OAuthAttributes(String oauthId, Map<String, Object> attributes, String nameAttributesKey,
+                           String name, String email, String oAuthProvider) {
         this.oauthId = oauthId;
-//        this.attributes = attributes;
-//        this.nameAttributesKey = nameAttributesKey;
+        this.attributes = attributes;
+        this.nameAttributesKey = nameAttributesKey;
         this.name = name;
         this.email = email;
         this.oAuthProvider = oAuthProvider;
-//        this.gender = gender;
-//        this.ageRange = ageRange;
-//        this.profileImageUrl = profileImageUrl;
     }
 
     public static OAuthAttributes of(String socialName, Map<String, Object> attributes) {
         if ("kakao".equals(socialName)) {
             return ofKakao("id", attributes);
-        }
-        else if ("google".equals(socialName)) {
+        } else if ("google".equals(socialName)) {
             return ofGoogle("sub", attributes);
-        }
-        else if ("naver".equals(socialName)) {
+        } else if ("naver".equals(socialName)) {
             return ofNaver("id", attributes);
         }
         return null;
@@ -49,9 +44,9 @@ public class OAuthAttributes {
 
     private static OAuthAttributes ofGoogle(String userNameAttributeName, Map<String, Object> attributes) {
         return OAuthAttributes.builder()
-                .oauthId(String.valueOf(attributes.get("sub")))
+                .oauthId(String.valueOf(attributes.get(GOOGLE_OAUTH_ID)))
                 .name(String.valueOf(attributes.get("name")))
-                .email(String.valueOf(attributes.get("email")))
+                .email(String.valueOf(attributes.get(EMAIL)))
                 .oAuthProvider(OAuthProvider.Google.getProvider())
                 .attributes(attributes)
                 .nameAttributesKey(userNameAttributeName)
@@ -59,15 +54,15 @@ public class OAuthAttributes {
     }
 
     private static OAuthAttributes ofKakao(String userNameAttributeName, Map<String, Object> attributes) {
-        String oauthId = String.valueOf(attributes.get("id"));
+        String oauthId = String.valueOf(attributes.get(KAKAO_NAVER_OAUTH_ID));
 
         Map<String, Object> kakaoAccount = (Map<String, Object>) attributes.get("kakao_account");
         Map<String, Object> kakaoProfile = (Map<String, Object>) kakaoAccount.get("profile");
 
         return OAuthAttributes.builder()
                 .oauthId(oauthId)
-                .name(String.valueOf(kakaoProfile.get("nickname")))
-                .email(String.valueOf(kakaoAccount.get("email")))
+                .name(String.valueOf(kakaoProfile.get(NICK_NAME)))
+                .email(String.valueOf(kakaoAccount.get(EMAIL)))
                 .oAuthProvider(OAuthProvider.Kakao.getProvider())
                 .nameAttributesKey(userNameAttributeName)
                 .attributes(attributes)
@@ -78,9 +73,9 @@ public class OAuthAttributes {
         Map<String, Object> response = (Map<String, Object>) attributes.get("response");
 
         return OAuthAttributes.builder()
-                .oauthId(String.valueOf(response.get("id")))
-                .name(String.valueOf(response.get("nickname")))
-                .email(String.valueOf(response.get("email")))
+                .oauthId(String.valueOf(response.get(KAKAO_NAVER_OAUTH_ID)))
+                .name(String.valueOf(response.get(NICK_NAME)))
+                .email(String.valueOf(response.get(EMAIL)))
                 .oAuthProvider(OAuthProvider.Naver.getProvider())
                 .attributes(response)
                 .nameAttributesKey(userNameAttributeName)

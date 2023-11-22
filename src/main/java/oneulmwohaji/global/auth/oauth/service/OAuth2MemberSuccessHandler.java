@@ -1,5 +1,7 @@
 package oneulmwohaji.global.auth.oauth.service;
 
+import static oneulmwohaji.global.auth.oauth.ConstantValue.*;
+
 import java.io.IOException;
 import java.net.URI;
 import java.util.HashMap;
@@ -14,8 +16,6 @@ import oneulmwohaji.global.auth.oauth.entity.OAuthAttributes;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.security.web.authentication.SimpleUrlAuthenticationSuccessHandler;
-import org.springframework.util.LinkedMultiValueMap;
-import org.springframework.util.MultiValueMap;
 import org.springframework.web.util.UriComponentsBuilder;
 
 @RequiredArgsConstructor
@@ -34,7 +34,7 @@ public class OAuth2MemberSuccessHandler extends SimpleUrlAuthenticationSuccessHa
         Map<String, Object> attributes = new HashMap<>(oAuth2User.getAttributes());
 
         OAuthAttributes oauthAttributes = OAuthAttributes.builder()
-                .oauthId(String.valueOf(attributes.get("oauthId")))
+                .oauthId(String.valueOf(attributes.get(OAUTH_ID)))
                 .build();
 
         return oauthAttributes.getOauthId();
@@ -46,14 +46,14 @@ public class OAuth2MemberSuccessHandler extends SimpleUrlAuthenticationSuccessHa
         String refreshToken = jwtProvider.createRefreshToken(oAuthId);   // Refresh Token 생성
         Cookie cookie = createHttpOnlyCookie(refreshToken);
 
-        response.addHeader("accessToken", accessToken);
+        response.addHeader(ACCESS_TOKEN, accessToken);
         response.addCookie(cookie);
         String uri = createURI().toString(); // Access Token과 Refresh Token을 포함한 URL을 생성
         getRedirectStrategy().sendRedirect(request, response, uri);
     }
 
     private Cookie createHttpOnlyCookie(String refreshToken) {
-        Cookie cookie = new Cookie("refreshToken", refreshToken);
+        Cookie cookie = new Cookie(REFRESH_TOKEN, refreshToken);
         cookie.setSecure(true);
         cookie.setHttpOnly(true);
         return cookie;
