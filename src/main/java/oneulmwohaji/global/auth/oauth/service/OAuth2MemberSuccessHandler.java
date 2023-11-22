@@ -4,15 +4,12 @@ import static oneulmwohaji.global.auth.oauth.ConstantValue.*;
 
 import java.io.IOException;
 import java.net.URI;
-import java.util.HashMap;
-import java.util.Map;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import oneulmwohaji.global.auth.jwt.service.JwtProvider;
-import oneulmwohaji.global.auth.oauth.entity.OAuthAttributes;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.security.web.authentication.SimpleUrlAuthenticationSuccessHandler;
@@ -22,23 +19,29 @@ import org.springframework.web.util.UriComponentsBuilder;
 @Slf4j
 public class OAuth2MemberSuccessHandler extends SimpleUrlAuthenticationSuccessHandler {
     private final JwtProvider jwtProvider;
+
     @Override
     public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response,
                                         Authentication authentication) throws IOException {
         OAuth2User oAuth2User = (OAuth2User) authentication.getPrincipal();
         String oAuthId = getOAuthIdFromOAuth2User(oAuth2User);
+        log.info(oAuthId);
         redirect(request, response, oAuthId);
     }
 
     private String getOAuthIdFromOAuth2User(OAuth2User oAuth2User) {
-        Map<String, Object> attributes = new HashMap<>(oAuth2User.getAttributes());
-
-        OAuthAttributes oauthAttributes = OAuthAttributes.builder()
-                .oauthId(String.valueOf(attributes.get(OAUTH_ID)))
-                .build();
-
-        return oauthAttributes.getOauthId();
+        String oauthId = oAuth2User.getName();
+        if (oauthId.contains("id=")) {
+            // kakao, google과 다르게 naver는 getName에 json으로 값들을 보내기 때문에 처리 과정이 필요함
+            return oauthId.lines()
+                    .filter(line -> line.contains("id="))
+                    .map(line -> line.substring(line.indexOf("id=") + 3, line.indexOf(",", line.indexOf("id="))))
+                    .findFirst()
+                    .orElse(oauthId.substring(oauthId.indexOf("id=") + 3));
+        }
+        return oauthId;
     }
+
 
     private void redirect(HttpServletRequest request, HttpServletResponse response,
                           String oAuthId) throws IOException {
@@ -49,6 +52,9 @@ public class OAuth2MemberSuccessHandler extends SimpleUrlAuthenticationSuccessHa
         response.addHeader(ACCESS_TOKEN, accessToken);
         response.addCookie(cookie);
         String uri = createURI().toString(); // Access Token과 Refresh Token을 포함한 URL을 생성
+
+        log.info(accessToken);
+        log.info(refreshToken);
         getRedirectStrategy().sendRedirect(request, response, uri);
     }
 
