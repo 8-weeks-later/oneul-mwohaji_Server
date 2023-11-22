@@ -1,6 +1,5 @@
 package oneulmwohaji.global.auth.jwt.service;
 
-
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.Jwts;
@@ -31,9 +30,9 @@ public class JwtProvider {
     private final MemberRepository memberRepository;
     @Value("${jwt.secret}")
     private String secret;
-    @Value("${jwt.accessToken.expiration-period")
+    @Value("${jwt.accessToken.expiration-period}")
     private int accesesTokenexpirationPeriod;
-    @Value("${jwt.refreshToken.expiration-period")
+    @Value("${jwt.refreshToken.expiration-period}")
     private int refreshTokenexpirationPeriod;
 
     private Key key;
@@ -43,17 +42,15 @@ public class JwtProvider {
         key = Keys.hmacShaKeyFor(secret.getBytes());
     }
 
-    public String createAccessToken(Authentication authentication) {
+    public String createAccessToken(String OAuthId) {
         Claims claims = Jwts.claims();
-        Member member = getMemberFromAuthentication(authentication);
-        claims.put("oauthId", member.getOauthId());
+        claims.put("oauthId", OAuthId);
         return createToken(claims, accesesTokenexpirationPeriod);
     }
 
-    public String createRefreshToken(Authentication authentication) {
+    public String createRefreshToken(String OAuthId) {
         Claims claims = Jwts.claims();
-        Member member = getMemberFromAuthentication(authentication);
-        claims.put("oauthId", member.getOauthId());
+        claims.put("oauthId", OAuthId);
         return createToken(claims, refreshTokenexpirationPeriod);
     }
 
