@@ -38,24 +38,25 @@ public class OAuthAttributes {
         if ("kakao".equals(socialName)) {
             return ofKakao("id", attributes);
         }
-//        else if ("google".equals(socialName)) {
-//            return ofGoogle("sub", attributes);
-//        }
+        else if ("google".equals(socialName)) {
+            return ofGoogle("sub", attributes);
+        }
         else if ("naver".equals(socialName)) {
             return ofNaver("id", attributes);
         }
         return null;
     }
 
-//    private static OAuthAttributes ofGoogle(String userNameAttributeName, Map<String, Object> attributes) {
-//        return OAuthAttributes.builder()
-//                .name(String.valueOf(attributes.get("name")))
-//                .email(String.valueOf(attributes.get("email")))
-//                .profileImageUrl(String.valueOf(attributes.get("picture")))
-//                .attributes(attributes)
-//                .nameAttributesKey(userNameAttributeName)
-//                .build();
-//    }
+    private static OAuthAttributes ofGoogle(String userNameAttributeName, Map<String, Object> attributes) {
+        return OAuthAttributes.builder()
+                .oauthId(String.valueOf(attributes.get("sub")))
+                .name(String.valueOf(attributes.get("name")))
+                .email(String.valueOf(attributes.get("email")))
+                .oAuthProvider(OAuthProvider.Google.getProvider())
+                .attributes(attributes)
+                .nameAttributesKey(userNameAttributeName)
+                .build();
+    }
 
     private static OAuthAttributes ofKakao(String userNameAttributeName, Map<String, Object> attributes) {
         String oauthId = String.valueOf(attributes.get("id"));
@@ -68,9 +69,6 @@ public class OAuthAttributes {
                 .name(String.valueOf(kakaoProfile.get("nickname")))
                 .email(String.valueOf(kakaoAccount.get("email")))
                 .oAuthProvider(OAuthProvider.Kakao.getProvider())
-//                .gender(String.valueOf(kakaoAccount.get("gender")))
-//                .ageRange(String.valueOf(kakaoAccount.get("age_range")))
-//                .profileImageUrl(String.valueOf(kakaoProfile.get("profile_image_url")))
                 .nameAttributesKey(userNameAttributeName)
                 .attributes(attributes)
                 .build();
@@ -84,9 +82,6 @@ public class OAuthAttributes {
                 .name(String.valueOf(response.get("nickname")))
                 .email(String.valueOf(response.get("email")))
                 .oAuthProvider(OAuthProvider.Naver.getProvider())
-//                .profileImageUrl(String.valueOf(response.get("profile_image")))
-//                .ageRange((String) response.get("age"))
-//                .gender((String) response.get("gender"))
                 .attributes(response)
                 .nameAttributesKey(userNameAttributeName)
                 .build();
