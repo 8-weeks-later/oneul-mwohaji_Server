@@ -9,4 +9,8 @@ public enum OAuthProvider {
     OAuthProvider(String provider) {
         this.provider = provider;
     }
+
+    public String getProvider() {
+        return provider;
+    }
 }

@@ -2,11 +2,14 @@ package oneulmwohaji.global.auth.oauth.service;
 
 import java.io.IOException;
 import java.net.URI;
+import java.util.HashMap;
+import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import oneulmwohaji.global.auth.jwt.service.JwtProvider;
+import oneulmwohaji.global.auth.oauth.entity.OAuthAttributes;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.security.web.authentication.SimpleUrlAuthenticationSuccessHandler;
@@ -28,8 +31,17 @@ public class OAuth2MemberSuccessHandler extends SimpleUrlAuthenticationSuccessHa
     }
 
     private String getOAuthIdFromOAuth2User(OAuth2User oAuth2User) {
-        return oAuth2User.getAttributes().get("id").toString();
+        Map<String, Object> attributes = new HashMap<>(oAuth2User.getAttributes());
+
+        OAuthAttributes oauthAttributes = OAuthAttributes.builder()
+                .oauthId(String.valueOf(attributes.get("oauthId")))
+                .build();
+
+        return oauthAttributes.getOauthId();
     }
+
+
+
 
     private void redirect(HttpServletRequest request, HttpServletResponse response,
                           String oAuthId) throws IOException {
