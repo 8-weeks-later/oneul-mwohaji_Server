@@ -12,6 +12,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import oneulmwohaji.global.auth.oauth.entity.OAuthProvider;
 import oneulmwohaji.global.common.entity.BaseEntity;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -22,7 +23,7 @@ import org.springframework.security.oauth2.core.user.OAuth2User;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class Member extends BaseEntity implements UserDetails, OAuth2User {
+public class Member extends BaseEntity implements UserDetails{
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -33,16 +34,8 @@ public class Member extends BaseEntity implements UserDetails, OAuth2User {
     private String username;
     @Column(nullable = false)
     private String oauthId;
-
-    @Override
-    public String getName() {
-        return null;
-    }
-
-    @Override
-    public Map<String, Object> getAttributes() {
-        return null;
-    }
+    @Column(nullable = false)
+    private String oAuthProvider;
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {

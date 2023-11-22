@@ -15,18 +15,20 @@ public class OAuthAttributes {
     private String nameAttributesKey;
     private String name;
     private String email;
+    private String oAuthProvider;
     private String gender;
     private String ageRange;
     private String profileImageUrl;
 
     @Builder
     public OAuthAttributes(String oauthId,Map<String, Object> attributes, String nameAttributesKey,
-                           String name, String email, String gender, String ageRange, String profileImageUrl) {
+                           String name, String email,String oAuthProvider, String gender, String ageRange, String profileImageUrl) {
         this.oauthId = oauthId;
 //        this.attributes = attributes;
 //        this.nameAttributesKey = nameAttributesKey;
         this.name = name;
         this.email = email;
+        this.oAuthProvider = oAuthProvider;
 //        this.gender = gender;
 //        this.ageRange = ageRange;
 //        this.profileImageUrl = profileImageUrl;
@@ -65,6 +67,7 @@ public class OAuthAttributes {
                 .oauthId(oauthId)
                 .name(String.valueOf(kakaoProfile.get("nickname")))
                 .email(String.valueOf(kakaoAccount.get("email")))
+                .oAuthProvider(OAuthProvider.Kakao.getProvider())
 //                .gender(String.valueOf(kakaoAccount.get("gender")))
 //                .ageRange(String.valueOf(kakaoAccount.get("age_range")))
 //                .profileImageUrl(String.valueOf(kakaoProfile.get("profile_image_url")))
@@ -80,6 +83,7 @@ public class OAuthAttributes {
                 .oauthId(String.valueOf(response.get("id")))
                 .name(String.valueOf(response.get("nickname")))
                 .email(String.valueOf(response.get("email")))
+                .oAuthProvider(OAuthProvider.Naver.getProvider())
 //                .profileImageUrl(String.valueOf(response.get("profile_image")))
 //                .ageRange((String) response.get("age"))
 //                .gender((String) response.get("gender"))
@@ -93,6 +97,7 @@ public class OAuthAttributes {
                 .username(name)
                 .email(email)
                 .oauthId(oauthId)
+                .oAuthProvider(oAuthProvider)
                 .build();
     }
 }
