@@ -25,7 +25,6 @@ public class OAuth2MemberSuccessHandler extends SimpleUrlAuthenticationSuccessHa
                                         Authentication authentication) throws IOException {
         OAuth2User oAuth2User = (OAuth2User) authentication.getPrincipal();
         String oAuthId = getOAuthIdFromOAuth2User(oAuth2User);
-        log.info(oAuthId);
         redirect(request, response, oAuthId);
     }
 
@@ -69,9 +68,9 @@ public class OAuth2MemberSuccessHandler extends SimpleUrlAuthenticationSuccessHa
     private URI createURI() {
         return UriComponentsBuilder
                 .newInstance()
-                .scheme("https")
-                .host("example")
-                .path("/oauth")
+                .scheme("http")
+                .host("localhost")
+                .path("")
                 .build()
                 .toUri();
     }
