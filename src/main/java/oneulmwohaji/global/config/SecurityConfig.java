@@ -2,6 +2,7 @@ package oneulmwohaji.global.config;
 
 import lombok.RequiredArgsConstructor;
 import oneulmwohaji.global.auth.jwt.service.JwtProvider;
+import oneulmwohaji.global.auth.oauth.handler.OAuth2MemberFailureHandler;
 import oneulmwohaji.global.auth.oauth.service.CustomOAuth2UserService;
 import oneulmwohaji.global.auth.oauth.handler.OAuth2MemberSuccessHandler;
 import org.springframework.context.annotation.Bean;
@@ -24,9 +25,9 @@ public class SecurityConfig {
                 .and()
                 .oauth2Login()
                 .successHandler(new OAuth2MemberSuccessHandler(jwtProvider))
+                .failureHandler(new OAuth2MemberFailureHandler())
                 .userInfoEndpoint()
                 .userService(customOAuth2UserService);
-
         return http.build();
     }
 }
