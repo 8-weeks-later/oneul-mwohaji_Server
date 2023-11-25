@@ -3,7 +3,7 @@ package oneulmwohaji.global.config;
 import lombok.RequiredArgsConstructor;
 import oneulmwohaji.global.auth.jwt.service.JwtProvider;
 import oneulmwohaji.global.auth.oauth.service.CustomOAuth2UserService;
-import oneulmwohaji.global.auth.oauth.service.OAuth2MemberSuccessHandler;
+import oneulmwohaji.global.auth.oauth.handler.OAuth2MemberSuccessHandler;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;

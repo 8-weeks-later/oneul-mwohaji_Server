@@ -1,4 +1,4 @@
-package oneulmwohaji.global.auth.oauth.service;
+package oneulmwohaji.global.auth.oauth.handler;
 
 import static oneulmwohaji.global.auth.oauth.ConstantValue.*;
 
