@@ -14,9 +14,4 @@ public class ConstantValue {
     public static final String EMAIL = "email";
     public static final String GOOGLE_OAUTH_ID = "sub";
     public static final String KAKAO_NAVER_OAUTH_ID = "id";
-
-    public void mn() {
-        int[] arrr = {1, 2, 3, 4, 5};
-        Arrays.stream(arrr).forEach(value -> System.out.println(value));
-    }
 }
