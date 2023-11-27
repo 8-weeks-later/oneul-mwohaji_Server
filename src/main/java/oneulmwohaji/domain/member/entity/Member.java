@@ -88,7 +88,7 @@ public class Member extends BaseEntity implements UserDetails {
         return !isBan;
     }
 
-    public void setUserIsBan() {
+    public void modifyIsBan() {
         this.isBan = !isBan;
     }
 }
