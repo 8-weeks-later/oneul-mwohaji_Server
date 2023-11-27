@@ -27,19 +27,24 @@ public class Post {
     private Point point;
     @Column(nullable = false)
     private String restaurantName;
+
+    @ElementCollection
+    @CollectionTable(name = "post_categories", joinColumns = @JoinColumn(name = "post_id"))
     @Column
-    private String category;
+    private List<String> categories;
     @ElementCollection
     @CollectionTable(name = "post_hashtags", joinColumns = @JoinColumn(name = "post_id"))
     private List<String> hashTags;
+    @ElementCollection
+    @CollectionTable(name = "post_members", joinColumns = @JoinColumn(name = "post_id"))
+    private List<String> memberNames;
+
+    @Column
+    private int scrapCount;
 
     /*
     TODO : reivew 클래스 생성 한 뒤, 1:N 매핑
-     */
+    */
     @Column
     private String review;
-    @Column
-    private String memberName;
-    @Column
-    private int scrapCount;
 }
