@@ -7,6 +7,7 @@ import java.util.Map;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.ToString;
+import oneulmwohaji.domain.member.entity.AccountType;
 import oneulmwohaji.domain.member.entity.Member;
 import oneulmwohaji.global.auth.oauth.ConstantValue;
 
@@ -18,11 +19,11 @@ public class OAuthAttributes {
     private String nameAttributesKey;
     private String name;
     private String email;
-    private String oAuthProvider;
+    private OAuthProvider oAuthProvider;
 
     @Builder
     public OAuthAttributes(String oauthId, Map<String, Object> attributes, String nameAttributesKey,
-                           String name, String email, String oAuthProvider) {
+                           String name, String email, OAuthProvider oAuthProvider) {
         this.oauthId = oauthId;
         this.attributes = attributes;
         this.nameAttributesKey = nameAttributesKey;
@@ -47,7 +48,7 @@ public class OAuthAttributes {
                 .oauthId(String.valueOf(attributes.get(GOOGLE_OAUTH_ID)))
                 .name(String.valueOf(attributes.get("name")))
                 .email(String.valueOf(attributes.get(EMAIL)))
-                .oAuthProvider(OAuthProvider.Google.getProvider())
+                .oAuthProvider(OAuthProvider.Google)
                 .attributes(attributes)
                 .nameAttributesKey(userNameAttributeName)
                 .build();
@@ -63,7 +64,7 @@ public class OAuthAttributes {
                 .oauthId(oauthId)
                 .name(String.valueOf(kakaoProfile.get(NICK_NAME)))
                 .email(String.valueOf(kakaoAccount.get(EMAIL)))
-                .oAuthProvider(OAuthProvider.Kakao.getProvider())
+                .oAuthProvider(OAuthProvider.Kakao)
                 .nameAttributesKey(userNameAttributeName)
                 .attributes(attributes)
                 .build();
@@ -76,7 +77,7 @@ public class OAuthAttributes {
                 .oauthId(String.valueOf(response.get(KAKAO_NAVER_OAUTH_ID)))
                 .name(String.valueOf(response.get(NICK_NAME)))
                 .email(String.valueOf(response.get(EMAIL)))
-                .oAuthProvider(OAuthProvider.Naver.getProvider())
+                .oAuthProvider(OAuthProvider.Naver)
                 .attributes(response)
                 .nameAttributesKey(userNameAttributeName)
                 .build();
@@ -88,6 +89,8 @@ public class OAuthAttributes {
                 .email(email)
                 .oauthId(oauthId)
                 .oAuthProvider(oAuthProvider)
+                .isBan(false)
+                .accountType(AccountType.ROLE_USER)
                 .build();
     }
 }
