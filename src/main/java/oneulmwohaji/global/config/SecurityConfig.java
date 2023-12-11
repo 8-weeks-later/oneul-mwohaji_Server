@@ -42,7 +42,7 @@ public class SecurityConfig {
                 .addFilterBefore(new JwtAuthenticationFilter(jwtProvider),
                         UsernamePasswordAuthenticationFilter.class)
                 .authorizeRequests()
-                .antMatchers("/admin/signin", "/").permitAll()
+                .antMatchers("/admin/signin", "/", "/auth/**").permitAll()
                 .anyRequest().authenticated();
 
         return http.build();

@@ -13,13 +13,4 @@ import org.springframework.web.bind.annotation.RestController;
 @RequiredArgsConstructor
 public class MemberController {
     private final MemberService memberService;
-
-    @GetMapping("/auth/login")
-    public ResponseEntity<?> authLoginFailure(
-            @RequestParam("error") String error,
-            @RequestParam("exception") String errorMessage
-    ) {
-        return ResponseEntity.status(HttpStatus.BAD_REQUEST)
-                .body(errorMessage);
-    }
 }

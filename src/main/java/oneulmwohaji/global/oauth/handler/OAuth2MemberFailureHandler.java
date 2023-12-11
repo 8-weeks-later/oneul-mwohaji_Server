@@ -19,11 +19,11 @@ public class OAuth2MemberFailureHandler extends SimpleUrlAuthenticationFailureHa
                                         AuthenticationException exception) throws IOException, ServletException {
         String errorMessage;
         if (exception instanceof InternalAuthenticationServiceException) {
-            errorMessage = ErrorMessage.BadCredentialsExceptionException;
+            errorMessage = BadCredentialsExceptionException;
         } else if (exception instanceof UsernameNotFoundException) {
-            errorMessage = ErrorMessage.MemberNotFoundException;
+            errorMessage = MemberNotFoundException;
         } else {
-            errorMessage = ErrorMessage.ErrorMessage;
+            errorMessage = ErrorMessage;
         }
 
         errorMessage = URLEncoder.encode(errorMessage, "UTF-8");

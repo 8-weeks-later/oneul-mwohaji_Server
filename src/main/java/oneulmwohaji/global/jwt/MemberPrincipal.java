@@ -1,4 +1,4 @@
-package oneulmwohaji.global.auth.jwt;
+package oneulmwohaji.global.jwt;
 
 import java.io.Serializable;
 import lombok.Getter;
