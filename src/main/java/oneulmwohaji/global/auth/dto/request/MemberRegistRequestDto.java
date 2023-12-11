@@ -5,6 +5,7 @@ import javax.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import oneulmwohaji.domain.member.entity.AccountType;
 import oneulmwohaji.domain.member.entity.Member;
 import oneulmwohaji.global.auth.exception.UnknownOAuthPlatformException;
 import oneulmwohaji.global.oauth.entity.OAuthProvider;
@@ -28,15 +29,16 @@ public class MemberRegistRequestDto {
                 .oAuthProvider(getOAuthProviderFromString(oauthPlatform))
                 .username(username)
                 .email(email)
+                .accountType(AccountType.ROLE_USER)
                 .build();
     }
 
     private OAuthProvider getOAuthProviderFromString(String oauthPlatform) {
         switch (oauthPlatform.toLowerCase()) {
             case "kakao":
-                return OAuthProvider.Kakao;
+                return OAuthProvider.KAKAO;
             case "google":
-                return OAuthProvider.Google;
+                return OAuthProvider.GOOGLE;
             default:
                 throw new UnknownOAuthPlatformException();
         }

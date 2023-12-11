@@ -48,8 +48,10 @@ public class Member extends BaseEntity implements UserDetails {
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         Set<SimpleGrantedAuthority> authorities = new HashSet<>();
-        authorities.add(new SimpleGrantedAuthority("ROLE_USER"));
+        if (accountType == AccountType.ROLE_USER) {
+            authorities.add(new SimpleGrantedAuthority("ROLE_USER"));
 
+        }
         if (accountType == AccountType.ROLE_ADMIN) {
             authorities.add(new SimpleGrantedAuthority("ROLE_ADMIN"));
         }
@@ -60,7 +62,7 @@ public class Member extends BaseEntity implements UserDetails {
 
     @Override
     public String getPassword() {
-        return null;
+        return oauthId;
     }
 
     @Override

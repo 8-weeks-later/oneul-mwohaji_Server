@@ -25,7 +25,7 @@ import org.springframework.web.bind.annotation.RestController;
 @Slf4j
 public class AdminController {
     private final AdminService adminService;
-    @Secured("{ROLE_ADMIN}")
+    @Secured("ROLE_ADMIN")
     @PatchMapping("/admin/modify/userBan")
     public ResponseEntity<String> modifyUserBan(@PathVariable Long id) {
         adminService.modifyUserBan(id);
@@ -33,7 +33,7 @@ public class AdminController {
                 .body("userBan 수정 완료");
     }
 
-    @Secured("{ROLE_ADMIN}")
+    @Secured("ROLE_ADMIN")
     @PostMapping("/admin/create/post")
     public ResponseEntity<?> uploadPost(@RequestBody PostRequestDto postRequestDto) {
         adminService.addPost(postRequestDto);
@@ -59,7 +59,7 @@ public class AdminController {
         httpServletResponse.addCookie(cookie);
         return ResponseEntity.ok()
                 .header("AccessToken", accessToken)
-                .body("admin 로그인 완료");
+                .body(member.getAuthorities());
     }
 
     @GetMapping("/hello")

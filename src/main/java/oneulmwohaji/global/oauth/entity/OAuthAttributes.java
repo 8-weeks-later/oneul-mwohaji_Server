@@ -46,7 +46,7 @@ public class OAuthAttributes {
                 .oauthId(String.valueOf(attributes.get(GOOGLE_OAUTH_ID)))
                 .name(String.valueOf(attributes.get("name")))
                 .email(String.valueOf(attributes.get(EMAIL)))
-                .oAuthProvider(OAuthProvider.Google)
+                .oAuthProvider(OAuthProvider.GOOGLE)
                 .attributes(attributes)
                 .nameAttributesKey(userNameAttributeName)
                 .build();
@@ -62,7 +62,7 @@ public class OAuthAttributes {
                 .oauthId(oauthId)
                 .name(String.valueOf(kakaoProfile.get(NICK_NAME)))
                 .email(String.valueOf(kakaoAccount.get(EMAIL)))
-                .oAuthProvider(OAuthProvider.Kakao)
+                .oAuthProvider(OAuthProvider.KAKAO)
                 .nameAttributesKey(userNameAttributeName)
                 .attributes(attributes)
                 .build();
@@ -75,7 +75,7 @@ public class OAuthAttributes {
                 .oauthId(String.valueOf(response.get(KAKAO_NAVER_OAUTH_ID)))
                 .name(String.valueOf(response.get(NICK_NAME)))
                 .email(String.valueOf(response.get(EMAIL)))
-                .oAuthProvider(OAuthProvider.Naver)
+                .oAuthProvider(OAuthProvider.NAVER)
                 .attributes(response)
                 .nameAttributesKey(userNameAttributeName)
                 .build();

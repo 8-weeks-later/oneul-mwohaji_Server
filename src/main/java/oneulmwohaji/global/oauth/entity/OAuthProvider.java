@@ -1,9 +1,9 @@
 package oneulmwohaji.global.oauth.entity;
 
 public enum OAuthProvider {
-    Naver("NAVER"),
-    Kakao("KAKAO"),
-    Google("GOOGLE");
+    NAVER("NAVER"),
+    KAKAO("KAKAO"),
+    GOOGLE("GOOGLE");
     private final String provider;
 
     OAuthProvider(String provider) {
