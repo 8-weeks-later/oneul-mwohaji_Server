@@ -1,6 +1,6 @@
-package oneulmwohaji.global.auth.oauth.handler;
+package oneulmwohaji.global.oauth.handler;
 
-import static oneulmwohaji.global.auth.oauth.handler.ErrorMessage.*;
+import static oneulmwohaji.global.oauth.handler.ErrorMessage.*;
 
 import java.io.IOException;
 import java.net.URLEncoder;
@@ -19,11 +19,11 @@ public class OAuth2MemberFailureHandler extends SimpleUrlAuthenticationFailureHa
                                         AuthenticationException exception) throws IOException, ServletException {
         String errorMessage;
         if (exception instanceof InternalAuthenticationServiceException) {
-            errorMessage = BadCredentialsExceptionException;
+            errorMessage = ErrorMessage.BadCredentialsExceptionException;
         } else if (exception instanceof UsernameNotFoundException) {
-            errorMessage = MemberNotFoundException;
+            errorMessage = ErrorMessage.MemberNotFoundException;
         } else {
-            errorMessage = ErrorMessage;
+            errorMessage = ErrorMessage.ErrorMessage;
         }
 
         errorMessage = URLEncoder.encode(errorMessage, "UTF-8");

@@ -1,6 +1,6 @@
-package oneulmwohaji.global.auth.oauth.handler;
+package oneulmwohaji.global.oauth.handler;
 
-import static oneulmwohaji.global.auth.oauth.ConstantValue.*;
+import static oneulmwohaji.global.oauth.ConstantValue.*;
 
 import java.io.IOException;
 import java.net.URI;
@@ -9,7 +9,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import oneulmwohaji.global.auth.jwt.service.JwtProvider;
+import oneulmwohaji.global.jwt.service.JwtProvider;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.security.web.authentication.SimpleUrlAuthenticationSuccessHandler;

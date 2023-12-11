@@ -1,4 +1,4 @@
-package oneulmwohaji.global.auth.oauth.entity;
+package oneulmwohaji.global.oauth.entity;
 
 public enum OAuthProvider {
     Naver("NAVER"),

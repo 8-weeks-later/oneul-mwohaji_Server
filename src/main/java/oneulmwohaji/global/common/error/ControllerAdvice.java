@@ -2,9 +2,9 @@ package oneulmwohaji.global.common.error;
 
 import oneulmwohaji.domain.member.exception.MemberExistException;
 import oneulmwohaji.domain.member.exception.MemberNotFoundException;
-import oneulmwohaji.global.auth.jwt.exception.TokenException;
-import oneulmwohaji.global.auth.jwt.exception.TokenExpiredException;
-import oneulmwohaji.global.auth.jwt.exception.TokenUnsupportedException;
+import oneulmwohaji.global.jwt.exception.TokenException;
+import oneulmwohaji.global.jwt.exception.TokenExpiredException;
+import oneulmwohaji.global.jwt.exception.TokenUnsupportedException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ExceptionHandler;

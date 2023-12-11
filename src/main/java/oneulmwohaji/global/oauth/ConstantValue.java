@@ -1,4 +1,4 @@
-package oneulmwohaji.global.auth.oauth;
+package oneulmwohaji.global.oauth;
 
 import java.util.ArrayList;
 import java.util.Arrays;

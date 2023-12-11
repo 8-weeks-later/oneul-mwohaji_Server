@@ -1,12 +1,11 @@
-package oneulmwohaji.global.auth.oauth.service;
+package oneulmwohaji.global.oauth.service;
 
 import java.util.Map;
 import javax.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import oneulmwohaji.domain.member.exception.MemberExistException;
 import oneulmwohaji.domain.member.service.MemberService;
-import oneulmwohaji.global.auth.oauth.entity.OAuthAttributes;
+import oneulmwohaji.global.oauth.entity.OAuthAttributes;
 import org.springframework.security.oauth2.client.userinfo.DefaultOAuth2UserService;
 import org.springframework.security.oauth2.client.userinfo.OAuth2UserRequest;
 import org.springframework.security.oauth2.client.userinfo.OAuth2UserService;

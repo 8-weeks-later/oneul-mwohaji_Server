@@ -1,15 +1,13 @@
-package oneulmwohaji.global.auth.oauth.entity;
+package oneulmwohaji.global.oauth.entity;
 
-import static oneulmwohaji.global.auth.oauth.ConstantValue.*;
+import static oneulmwohaji.global.oauth.ConstantValue.*;
 
-import java.util.List;
 import java.util.Map;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.ToString;
 import oneulmwohaji.domain.member.entity.AccountType;
 import oneulmwohaji.domain.member.entity.Member;
-import oneulmwohaji.global.auth.oauth.ConstantValue;
 
 @Getter
 @ToString

@@ -1,6 +1,6 @@
-package oneulmwohaji.global.auth.jwt.service;
+package oneulmwohaji.global.jwt.service;
 
-import static oneulmwohaji.global.auth.oauth.ConstantValue.*;
+import static oneulmwohaji.global.oauth.ConstantValue.*;
 
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.ExpiredJwtException;
@@ -17,12 +17,10 @@ import lombok.RequiredArgsConstructor;
 import oneulmwohaji.domain.member.entity.Member;
 import oneulmwohaji.domain.member.exception.MemberNotFoundException;
 import oneulmwohaji.domain.member.repository.MemberRepository;
-import oneulmwohaji.global.auth.jwt.exception.TokenException;
-import oneulmwohaji.global.auth.jwt.exception.TokenExpiredException;
-import oneulmwohaji.global.auth.jwt.exception.TokenUnsupportedException;
-import oneulmwohaji.global.auth.jwt.MemberPrincipal;
-import oneulmwohaji.global.auth.oauth.ConstantValue;
-import org.apache.tomcat.util.bcel.Const;
+import oneulmwohaji.global.jwt.exception.TokenException;
+import oneulmwohaji.global.jwt.exception.TokenExpiredException;
+import oneulmwohaji.global.jwt.exception.TokenUnsupportedException;
+import oneulmwohaji.global.jwt.MemberPrincipal;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -81,7 +79,7 @@ public class JwtProvider {
         return Date.from(now.plusHours(expirationPeriod).atZone(ZoneId.systemDefault()).toInstant());
     }
 
-    public boolean validateToken(String token) {
+    public Boolean validateAccessToken(String token) {
         try {
             Jwts.parser()
                     .setSigningKey(secret.getBytes())
@@ -96,7 +94,6 @@ public class JwtProvider {
             throw new TokenException();
         }
     }
-
     public UsernamePasswordAuthenticationToken getAuthentication(String token) {
         String oauthId = getMemberIdFromToken(token);
         Member member = memberRepository.findMemberByOauthId(oauthId).orElseThrow(() -> new MemberNotFoundException());

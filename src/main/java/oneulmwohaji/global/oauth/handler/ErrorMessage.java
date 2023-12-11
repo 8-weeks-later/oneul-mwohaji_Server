@@ -1,4 +1,4 @@
-package oneulmwohaji.global.auth.oauth.handler;
+package oneulmwohaji.global.oauth.handler;
 
 public class ErrorMessage {
     public static final String BadCredentialsExceptionException = "알 수 없는 내부 문제로 인해 로그인 요청을 처리할 수 없습니다.";

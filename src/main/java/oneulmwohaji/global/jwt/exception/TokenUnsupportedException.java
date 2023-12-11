@@ -1,4 +1,4 @@
-package oneulmwohaji.global.auth.jwt.exception;
+package oneulmwohaji.global.jwt.exception;
 
 public class TokenUnsupportedException extends RuntimeException {
     public TokenUnsupportedException(final String message) {

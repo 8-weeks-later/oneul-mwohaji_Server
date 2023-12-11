@@ -1,4 +1,5 @@
-package oneulmwohaji.global.auth.jwt.exception;
+package oneulmwohaji.global.jwt.exception;
+
 
 public class TokenException extends RuntimeException {
     public TokenException(final String message) {
@@ -7,5 +8,9 @@ public class TokenException extends RuntimeException {
 
     public TokenException() {
         this("Token 관련 로직에서 문제가 발생하였습니다.");
+    }
+
+    public TokenException(Exception e) {
+        this(e.getMessage());
     }
 }

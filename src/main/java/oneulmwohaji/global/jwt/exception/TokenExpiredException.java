@@ -1,4 +1,4 @@
-package oneulmwohaji.global.auth.jwt.exception;
+package oneulmwohaji.global.jwt.exception;
 
 public class TokenExpiredException extends RuntimeException{
     public TokenExpiredException(final String message) {

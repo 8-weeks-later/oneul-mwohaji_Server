@@ -1,33 +1,50 @@
 package oneulmwohaji.global.config;
 
 import lombok.RequiredArgsConstructor;
-import oneulmwohaji.global.auth.jwt.service.JwtProvider;
-import oneulmwohaji.global.auth.oauth.handler.OAuth2MemberFailureHandler;
-import oneulmwohaji.global.auth.oauth.service.CustomOAuth2UserService;
-import oneulmwohaji.global.auth.oauth.handler.OAuth2MemberSuccessHandler;
+import oneulmwohaji.global.jwt.CustomAuthenticationEntryPoint;
+import oneulmwohaji.global.jwt.JwtAccessDeniedHandler;
+import oneulmwohaji.global.jwt.filter.JwtAuthenticationFilter;
+import oneulmwohaji.global.jwt.service.JwtProvider;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 @Configuration
 @EnableWebSecurity
 @RequiredArgsConstructor
 public class SecurityConfig {
-    private final CustomOAuth2UserService customOAuth2UserService;
+    private final CustomAuthenticationEntryPoint authenticationEntryPoint;
+    private final JwtAccessDeniedHandler jwtAccessDeniedHandler;
     private final JwtProvider jwtProvider;
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http
-                .authorizeRequests()
-                .anyRequest().permitAll()
+                .cors()
                 .and()
-                .oauth2Login()
-                .successHandler(new OAuth2MemberSuccessHandler(jwtProvider))
-                .failureHandler(new OAuth2MemberFailureHandler())
-                .userInfoEndpoint()
-                .userService(customOAuth2UserService);
+                .csrf()
+                .disable()
+                .logout()
+                .disable()
+
+                .sessionManagement()
+                .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+
+                .and()
+                .exceptionHandling()
+                .authenticationEntryPoint(authenticationEntryPoint)
+                .accessDeniedHandler(jwtAccessDeniedHandler)
+
+                .and()
+                .addFilterBefore(new JwtAuthenticationFilter(jwtProvider),
+                        UsernamePasswordAuthenticationFilter.class)
+                .authorizeRequests()
+                .antMatchers("/admin/signin", "/").permitAll()
+                .anyRequest().authenticated();
+
         return http.build();
     }
 }

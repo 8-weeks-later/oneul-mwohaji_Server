@@ -1,4 +1,4 @@
-package oneulmwohaji.global.auth.oauth.entity;
+package oneulmwohaji.global.oauth.entity;
 
 import java.io.Serializable;
 import java.util.Collection;
