@@ -11,11 +11,13 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
-import org.springframework.data.geo.Point;
+import org.locationtech.jts.geom.Point;
 
 @Entity
 @Builder
+@Getter
 @AllArgsConstructor
 @NoArgsConstructor
 public class Post {
@@ -23,7 +25,7 @@ public class Post {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column
+    @Column(columnDefinition = "POINT SRID 4326")
     private Point point;
     @Column(nullable = false)
     private String restaurantName;
@@ -42,9 +44,7 @@ public class Post {
     @Column
     private int scrapCount;
 
-    /*
-    TODO : reivew 클래스 생성 한 뒤, 1:N 매핑
-    */
+    // FIXME: 2023-12-12
     @Column
     private String review;
 }

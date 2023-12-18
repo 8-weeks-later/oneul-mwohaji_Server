@@ -51,6 +51,10 @@ dependencies {
     //querydsl
     implementation "com.querydsl:querydsl-jpa:5.0.0"
     annotationProcessor "com.querydsl:querydsl-apt:5.0.0"
+
+    //공간데이터를 위한 Hibernate spatial
+    implementation 'org.hibernate:hibernate-spatial'
+
 }
 
 def querydslDir = "$buildDir/generated/querydsl" // $buildDir 향후에 변경 예정

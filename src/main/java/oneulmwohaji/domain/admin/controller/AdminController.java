@@ -1,5 +1,6 @@
 package oneulmwohaji.domain.admin.controller;
 
+import static oneulmwohaji.global.oauth.ConstantValue.ACCESS_TOKEN;
 import static oneulmwohaji.global.oauth.ConstantValue.REFRESH_TOKEN;
 
 import javax.servlet.http.Cookie;
@@ -58,7 +59,7 @@ public class AdminController {
 
         httpServletResponse.addCookie(cookie);
         return ResponseEntity.ok()
-                .header("AccessToken", accessToken)
+                .header(ACCESS_TOKEN, accessToken)
                 .body(member.getAuthorities());
     }
 

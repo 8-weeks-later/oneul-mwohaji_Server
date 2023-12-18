@@ -2,6 +2,7 @@ package oneulmwohaji.global.common.error;
 
 import oneulmwohaji.domain.member.exception.MemberExistException;
 import oneulmwohaji.domain.member.exception.MemberNotFoundException;
+import oneulmwohaji.domain.post.exception.RestaurantNotFoundException;
 import oneulmwohaji.global.jwt.exception.TokenException;
 import oneulmwohaji.global.jwt.exception.TokenExpiredException;
 import oneulmwohaji.global.jwt.exception.TokenUnsupportedException;
@@ -14,7 +15,8 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 public class ControllerAdvice {
     @ExceptionHandler({
             MemberNotFoundException.class,
-            MemberExistException.class
+            MemberExistException.class,
+            RestaurantNotFoundException.class
     })
     public ResponseEntity<ErrorResponse> handleNotFound(final RuntimeException e) {
         ErrorResponse errorResponse = new ErrorResponse(e.getMessage());

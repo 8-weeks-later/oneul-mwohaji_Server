@@ -44,7 +44,8 @@ public class SecurityConfig {
                 .addFilterBefore(new JwtAuthenticationFilter(jwtProvider),
                         UsernamePasswordAuthenticationFilter.class)
                 .authorizeRequests()
-                .antMatchers("/admin/signin", "/", "/auth/**", "admin/**").permitAll()
+                // FIXME: 2023-12-18
+                .antMatchers("/**").permitAll()
                 .anyRequest().authenticated();
 
         return http.build();
