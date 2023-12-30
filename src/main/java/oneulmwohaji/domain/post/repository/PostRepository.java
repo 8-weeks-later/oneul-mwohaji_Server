@@ -15,6 +15,5 @@ public interface PostRepository extends JpaRepository<Post, Long> {
             "FROM Post p " +
             "WHERE ST_Distance_Sphere(p.point, ST_GeomFromText(:userPoint, 4326)) <= :range " +
             "ORDER BY ST_Distance_Sphere(p.point, ST_GeomFromText(:userPoint, 4326))")
-    Optional<List<Post>> findByPointWithinRangeOrderByDistance(@Param("userPoint") String userPoint, @Param("range") double range);
-
+    List<Post> findByPointWithinRangeOrderByDistance(@Param("userPoint") String userPoint, @Param("range") double range);
 }

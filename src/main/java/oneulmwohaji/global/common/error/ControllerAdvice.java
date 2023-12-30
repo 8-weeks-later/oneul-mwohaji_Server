@@ -15,8 +15,7 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 public class ControllerAdvice {
     @ExceptionHandler({
             MemberNotFoundException.class,
-            MemberExistException.class,
-            RestaurantNotFoundException.class
+            MemberExistException.class
     })
     public ResponseEntity<ErrorResponse> handleNotFound(final RuntimeException e) {
         ErrorResponse errorResponse = new ErrorResponse(e.getMessage());
