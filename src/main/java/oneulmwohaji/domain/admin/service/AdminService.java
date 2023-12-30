@@ -6,7 +6,7 @@ import oneulmwohaji.domain.admin.dto.request.PostRequestDto;
 import oneulmwohaji.domain.member.entity.Member;
 import oneulmwohaji.domain.member.exception.MemberNotFoundException;
 import oneulmwohaji.domain.member.repository.MemberRepository;
-import oneulmwohaji.domain.member.repository.MemberRepositoryImpl;
+import oneulmwohaji.domain.member.repository.AdminMemberQueryRepository;
 import oneulmwohaji.domain.post.entity.Post;
 import oneulmwohaji.domain.post.repository.PostRepository;
 import oneulmwohaji.global.jwt.service.JwtProvider;
@@ -16,7 +16,7 @@ import org.springframework.stereotype.Service;
 @RequiredArgsConstructor
 public class AdminService {
     private final MemberRepository memberRepository;
-    private final MemberRepositoryImpl memberQueryReporitory;
+    private final AdminMemberQueryRepository memberQueryReporitory;
     private final PostRepository postRepository;
     private final JwtProvider jwtProvider;
     public void modifyUserBan(Long id) {

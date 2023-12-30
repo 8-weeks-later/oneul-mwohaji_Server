@@ -12,6 +12,7 @@ import oneulmwohaji.domain.admin.dto.request.AdminRequestDto;
 import oneulmwohaji.domain.admin.dto.request.PostRequestDto;
 import oneulmwohaji.domain.admin.service.AdminService;
 import oneulmwohaji.domain.member.entity.Member;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -38,8 +39,8 @@ public class AdminController {
     @PostMapping("/admin/create/post")
     public ResponseEntity<?> uploadPost(@RequestBody PostRequestDto postRequestDto) {
         adminService.addPost(postRequestDto);
-        return ResponseEntity.ok()
-                .body("post 업로드 완료");
+        return ResponseEntity.status(HttpStatus.CREATED)
+                .body("post created");
     }
 
     /*

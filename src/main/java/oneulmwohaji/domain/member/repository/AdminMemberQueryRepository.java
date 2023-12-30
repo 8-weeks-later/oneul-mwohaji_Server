@@ -1,7 +1,5 @@
 package oneulmwohaji.domain.member.repository;
 
-import static oneulmwohaji.domain.member.entity.QMember.*;
-
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import java.util.Optional;
 import lombok.RequiredArgsConstructor;
@@ -13,7 +11,7 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 @RequiredArgsConstructor
-public class MemberRepositoryImpl{
+public class AdminMemberQueryRepository {
     private final JPAQueryFactory jpaQueryFactory;
 
     public Optional<Member> findAdminById(AdminRequestDto adminRequestDto) {
