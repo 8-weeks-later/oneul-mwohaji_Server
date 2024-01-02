@@ -9,7 +9,7 @@ import org.locationtech.jts.geom.Point;
 @Getter
 @AllArgsConstructor
 @Builder
-public class PostResponseDto {
+public class PostResponse {
     // FIXME: 2023-12-12
     private long id;
     private double x;
@@ -17,8 +17,8 @@ public class PostResponseDto {
     private String restaurantName;
     private int scrapCount;
 
-    public static PostResponseDto getPostResponseDto(Post post) {
-        return PostResponseDto.builder()
+    public static PostResponse getPostResponseDto(Post post) {
+        return PostResponse.builder()
                 .id(post.getId())
                 .x(getX(post.getPoint()))
                 .y(getY(post.getPoint()))

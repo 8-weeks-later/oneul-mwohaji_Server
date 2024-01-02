@@ -3,8 +3,8 @@ package oneulmwohaji.domain.post.service;
 import static org.junit.jupiter.api.Assertions.*;
 
 import java.util.List;
-import oneulmwohaji.domain.post.dto.request.UserGeometryInfoDto;
-import oneulmwohaji.domain.post.dto.response.PostResponseDto;
+import oneulmwohaji.domain.post.dto.request.UserGeometryInfoRequest;
+import oneulmwohaji.domain.post.dto.response.PostResponse;
 import oneulmwohaji.domain.post.repository.PostRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -17,7 +17,7 @@ class PostServiceTest {
     @Autowired
     private PostRepository postRepository;
     private PostService postService;
-    private UserGeometryInfoDto userGeometryInfoDto;
+    private UserGeometryInfoRequest userGeometryInfoRequest;
 
     @BeforeEach
     void setUp() {
@@ -28,9 +28,9 @@ class PostServiceTest {
     @Test
     public void getPostsByUserGeometry() throws Exception {
         //given
-        userGeometryInfoDto = new UserGeometryInfoDto(37.5665, 26.9780, 10); // 10이면 111 * 10 -> 1.1km이다.
+        userGeometryInfoRequest = new UserGeometryInfoRequest(37.5665, 26.9780, 10); // 10이면 111 * 10 -> 1.1km이다.
         //when
-        List<PostResponseDto> postResponseDtos = postService.getPostsByUserGeometry(userGeometryInfoDto);
+        List<PostResponse> postResponseDtos = postService.getPostsByUserGeometry(userGeometryInfoRequest);
         //then
         assertEquals(1, postResponseDtos.size());
     }
@@ -39,9 +39,9 @@ class PostServiceTest {
     @Test
     public void getPostsByUserGeometryIfThereIsNoRestraurantInRange()throws Exception {
         //given
-        userGeometryInfoDto = new UserGeometryInfoDto(47.5665, 26.9780, 10); // 10이면 111 * 10 -> 1.1km이다.
+        userGeometryInfoRequest = new UserGeometryInfoRequest(47.5665, 26.9780, 10); // 10이면 111 * 10 -> 1.1km이다.
         //when
-        List<PostResponseDto> postResponseDtos = postService.getPostsByUserGeometry(userGeometryInfoDto);
+        List<PostResponse> postResponseDtos = postService.getPostsByUserGeometry(userGeometryInfoRequest);
         //then
         assertEquals(0, postResponseDtos.size());
     }
@@ -49,9 +49,9 @@ class PostServiceTest {
     @Test
     public void getPostsByUserGeometryIfOneRestraurantInRange() throws Exception {
         //given
-        userGeometryInfoDto = new UserGeometryInfoDto(37.5665, 26.9780, 30); // 10이면 111 * 10 -> 1.1km이다.
+        userGeometryInfoRequest = new UserGeometryInfoRequest(37.5665, 26.9780, 30);
         //when
-        List<PostResponseDto> postResponseDtos = postService.getPostsByUserGeometry(userGeometryInfoDto);
+        List<PostResponse> postResponseDtos = postService.getPostsByUserGeometry(userGeometryInfoRequest);
         //then
         assertEquals(3, postResponseDtos.size());
     }
@@ -60,9 +60,9 @@ class PostServiceTest {
     @Test
     public void getPostsByUserGeometryIfMultipleRestaurantsInRange() throws Exception {
         //given
-        userGeometryInfoDto = new UserGeometryInfoDto(37.5785, 26.9780, 200000); // 해당 좌표 주변에 여러 개의 레스토랑이 있다는 가정
+        userGeometryInfoRequest = new UserGeometryInfoRequest(37.5785, 26.9780, 200000); // 해당 좌표 주변에 여러 개의 레스토랑이 있다는 가정
         //when
-        List<PostResponseDto> postResponseDtos = postService.getPostsByUserGeometry(userGeometryInfoDto);
+        List<PostResponse> postResponseDtos = postService.getPostsByUserGeometry(userGeometryInfoRequest);
         //then
         assertTrue(postResponseDtos.size() > 1);
     }
@@ -71,8 +71,8 @@ class PostServiceTest {
     @Test
     public void getPostsByUserGeometryIfInvalidCoordinates() {
         //given
-        userGeometryInfoDto = new UserGeometryInfoDto(200.0, 200.0, 100); // 유효하지 않은 좌표를 전달하는 가정
+        userGeometryInfoRequest = new UserGeometryInfoRequest(200.0, 200.0, 100); // 유효하지 않은 좌표를 전달하는 가정
         //when & then
-        assertThrows(Exception.class, () -> postService.getPostsByUserGeometry(userGeometryInfoDto));
+        assertThrows(Exception.class, () -> postService.getPostsByUserGeometry(userGeometryInfoRequest));
     }
 }

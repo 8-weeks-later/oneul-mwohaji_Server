@@ -2,20 +2,14 @@ package oneulmwohaji.domain.post.service;
 
 import java.util.Collections;
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import oneulmwohaji.domain.member.exception.MemberExistException;
-import oneulmwohaji.domain.member.exception.MemberNotFoundException;
-import oneulmwohaji.domain.post.dto.request.UserGeometryInfoDto;
-import oneulmwohaji.domain.post.dto.response.PostResponseDto;
+import oneulmwohaji.domain.post.dto.request.UserGeometryInfoRequest;
+import oneulmwohaji.domain.post.dto.response.PostResponse;
 import oneulmwohaji.domain.post.entity.Post;
-import oneulmwohaji.domain.post.exception.RestaurantNotFoundException;
 import oneulmwohaji.domain.post.repository.PostRepository;
-import org.locationtech.jts.geom.Point;
 import org.locationtech.jts.io.ParseException;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -24,10 +18,10 @@ import org.springframework.stereotype.Service;
 public class PostService {
     private final PostRepository postRepository;
 
-    public List<PostResponseDto> getPostsByUserGeometry(UserGeometryInfoDto userGeometryInfoDto) throws ParseException {
-        String userPoint = userGeometryInfoDto.toWKT();
+    public List<PostResponse> getPostsByUserGeometry(UserGeometryInfoRequest userGeometryInfoRequest) throws ParseException {
+        String userPoint = userGeometryInfoRequest.toWKT();
         List<Post> posts = postRepository.findByPointWithinRangeOrderByDistance(userPoint,
-                userGeometryInfoDto.getRange());
+                userGeometryInfoRequest.getRange());
         if (posts.size() == 0) {
             return Collections.emptyList();
         } else {
@@ -35,9 +29,9 @@ public class PostService {
         }
     }
 
-    private List<PostResponseDto> getPostResponseDto(List<Post> posts) {
+    private List<PostResponse> getPostResponseDto(List<Post> posts) {
         return posts.stream()
-                .map(PostResponseDto::getPostResponseDto)
+                .map(PostResponse::getPostResponseDto)
                 .collect(Collectors.toList());
     }
 }

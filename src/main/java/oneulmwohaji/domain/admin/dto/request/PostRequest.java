@@ -17,7 +17,7 @@ import lombok.NoArgsConstructor;
 @Getter
 @AllArgsConstructor
 @NoArgsConstructor
-public class PostRequestDto {
+public class PostRequest {
     @NotBlank
     private String restaurantName;
     @NotBlank

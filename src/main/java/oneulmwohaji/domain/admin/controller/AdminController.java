@@ -8,18 +8,18 @@ import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import oneulmwohaji.domain.admin.dto.request.AdminRequestDto;
-import oneulmwohaji.domain.admin.dto.request.PostRequestDto;
+import oneulmwohaji.domain.admin.dto.request.AdminRequest;
+import oneulmwohaji.domain.admin.dto.request.PostRequest;
+import oneulmwohaji.domain.admin.dto.response.MemberUpdateResponse;
 import oneulmwohaji.domain.admin.service.AdminService;
 import oneulmwohaji.domain.member.entity.Member;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
@@ -29,39 +29,39 @@ public class AdminController {
     private final AdminService adminService;
     @Secured("ROLE_ADMIN")
     @PatchMapping("/admin/modify/userBan")
-    public ResponseEntity<String> modifyUserBan(@PathVariable Long id) {
-        adminService.modifyUserBan(id);
+    public ResponseEntity<MemberUpdateResponse> modifyUserBan(@RequestParam("id")Long id) {
+        MemberUpdateResponse memberUpdateResponse = adminService.modifyUserBan(id);
         return ResponseEntity.ok()
-                .body("userBan 수정 완료");
+                .body(memberUpdateResponse);
     }
 
     @Secured("ROLE_ADMIN")
     @PostMapping("/admin/create/post")
-    public ResponseEntity<?> uploadPost(@RequestBody PostRequestDto postRequestDto) {
-        adminService.addPost(postRequestDto);
-        return ResponseEntity.status(HttpStatus.CREATED)
-                .body("post created");
+    public ResponseEntity<Void> uploadPost(@RequestBody PostRequest postRequest) {
+        adminService.addPost(postRequest);
+        return ResponseEntity.noContent()
+                .build();
     }
 
     /*
     TODO : 관리자 로그인 로직
      */
     @PostMapping("/admin/signin")
-    public ResponseEntity<?> loginAdmin(@RequestBody @Valid AdminRequestDto adminRequestDto,
+    public ResponseEntity<?> loginAdmin(@RequestBody @Valid AdminRequest adminRequest,
                                         HttpServletResponse httpServletResponse) {
-        log.info(adminRequestDto.getEmail());
-        log.info(adminRequestDto.getOauthId());
+        log.info(adminRequest.getEmail());
+        log.info(adminRequest.getOauthId());
 
-        Member member = adminService.login(adminRequestDto);
+        Member member = adminService.login(adminRequest);
         String accessToken = adminService.createAccessToken(member.getOauthId());
         String refreshToken = adminService.createRefreshToken(member.getOauthId());
 
         Cookie cookie = createHttpOnlyCookie(refreshToken);
 
         httpServletResponse.addCookie(cookie);
-        return ResponseEntity.ok()
+        return ResponseEntity.noContent()
                 .header(ACCESS_TOKEN, accessToken)
-                .body(member.getAuthorities());
+                .build();
     }
 
     @GetMapping("/hello")

@@ -1,7 +1,6 @@
 package oneulmwohaji.domain.member.repository;
 
 import java.util.Optional;
-import oneulmwohaji.domain.admin.dto.request.AdminRequestDto;
 import oneulmwohaji.domain.member.entity.Member;
 import org.springframework.data.jpa.repository.JpaRepository;
 

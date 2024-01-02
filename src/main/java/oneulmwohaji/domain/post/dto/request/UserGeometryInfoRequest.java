@@ -4,10 +4,7 @@ import javax.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
-import org.locationtech.jts.geom.Coordinate;
-import org.locationtech.jts.geom.GeometryFactory;
 import org.locationtech.jts.geom.Point;
-import org.locationtech.jts.geom.PrecisionModel;
 import org.locationtech.jts.io.ParseException;
 import org.locationtech.jts.io.WKTReader;
 import org.locationtech.jts.io.WKTWriter;
@@ -15,7 +12,7 @@ import org.locationtech.jts.io.WKTWriter;
 @Getter
 @AllArgsConstructor
 @Builder
-public class UserGeometryInfoDto {
+public class UserGeometryInfoRequest {
     @NotNull
     private double x;
     @NotNull

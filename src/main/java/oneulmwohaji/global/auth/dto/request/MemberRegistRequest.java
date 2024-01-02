@@ -1,7 +1,6 @@
 package oneulmwohaji.global.auth.dto.request;
 
 import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -13,7 +12,7 @@ import oneulmwohaji.global.oauth.entity.OAuthProvider;
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor
-public class MemberRegistRequestDto {
+public class MemberRegistRequest {
     @NotBlank
     private String oauthId;
     @NotBlank

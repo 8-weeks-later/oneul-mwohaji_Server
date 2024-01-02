@@ -8,8 +8,8 @@ import javax.servlet.http.Cookie;
 import lombok.RequiredArgsConstructor;
 import oneulmwohaji.domain.member.entity.Member;
 import oneulmwohaji.global.auth.exception.MemberSigninException;
-import oneulmwohaji.global.auth.dto.request.MemberOAuthRequestDto;
-import oneulmwohaji.global.auth.dto.request.MemberRegistRequestDto;
+import oneulmwohaji.global.auth.dto.request.MemberOAuthRequest;
+import oneulmwohaji.global.auth.dto.request.MemberRegistRequest;
 import oneulmwohaji.global.auth.service.AuthService;
 import oneulmwohaji.global.jwt.service.JwtProvider;
 import org.springframework.http.HttpHeaders;
@@ -26,8 +26,8 @@ public class AuthController {
     private final AuthService authService;
     private final JwtProvider jwtProvider;
     @PostMapping("/auth/member")
-    public ResponseEntity<?> registMember(@RequestBody @Validated MemberOAuthRequestDto memberOAuthRequestDto) {
-        String oauthId = memberOAuthRequestDto.getOauthId();
+    public ResponseEntity<?> registMember(@RequestBody @Validated MemberOAuthRequest memberOAuthRequest) {
+        String oauthId = memberOAuthRequest.getOauthId();
         Optional<Member> memberOptional = authService.findMemberByOAuthId(oauthId);
         if (memberOptional.isEmpty()) {
             throw new MemberSigninException();
@@ -45,10 +45,10 @@ public class AuthController {
 
     @PostMapping("/auth/additional/member")
     public ResponseEntity<?> AdditionalRegistMember(
-            @RequestBody @Validated MemberRegistRequestDto memberRegistRequestDto) {
-        authService.registMember(memberRegistRequestDto);
+            @RequestBody @Validated MemberRegistRequest memberRegistRequest) {
+        authService.registMember(memberRegistRequest);
 
-        return ResponseEntity.ok(memberRegistRequestDto);
+        return ResponseEntity.ok(memberRegistRequest);
     }
 
     private Cookie createHttpOnlyCookie(String refreshToken) {

@@ -4,7 +4,7 @@ import java.util.Optional;
 import lombok.RequiredArgsConstructor;
 import oneulmwohaji.domain.member.entity.Member;
 import oneulmwohaji.domain.member.repository.MemberRepository;
-import oneulmwohaji.global.auth.dto.request.MemberRegistRequestDto;
+import oneulmwohaji.global.auth.dto.request.MemberRegistRequest;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -16,8 +16,8 @@ public class AuthService {
         return memberRepository.findMemberByOauthId(oauthId);
     }
 
-    public void registMember(MemberRegistRequestDto memberRegistRequestDto) {
-        Member member = memberRegistRequestDto.of();
+    public void registMember(MemberRegistRequest memberRegistRequest) {
+        Member member = memberRegistRequest.of();
         memberRepository.save(member);
     }
 }

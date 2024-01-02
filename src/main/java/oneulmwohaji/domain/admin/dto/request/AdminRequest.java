@@ -8,7 +8,7 @@ import lombok.NoArgsConstructor;
 @Getter
 @AllArgsConstructor
 @NoArgsConstructor
-public class AdminRequestDto {
+public class AdminRequest {
     @NotBlank
     private String email;
     @NotBlank

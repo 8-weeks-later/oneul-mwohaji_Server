@@ -7,6 +7,6 @@ import lombok.NoArgsConstructor;
 @Getter
 @AllArgsConstructor
 @NoArgsConstructor
-public class MemberOAuthRequestDto {
+public class MemberOAuthRequest {
     private String oauthId;
 }

@@ -3,8 +3,8 @@ package oneulmwohaji.domain.admin.service;
 import static org.junit.jupiter.api.Assertions.*;
 
 import java.util.Optional;
-import oneulmwohaji.domain.admin.dto.request.AdminRequestDto;
-import oneulmwohaji.domain.admin.dto.request.PostRequestDto;
+import oneulmwohaji.domain.admin.dto.request.AdminRequest;
+import oneulmwohaji.domain.admin.dto.request.PostRequest;
 import oneulmwohaji.domain.member.entity.Member;
 import oneulmwohaji.domain.member.exception.MemberNotFoundException;
 import oneulmwohaji.domain.member.repository.MemberRepository;
@@ -30,8 +30,8 @@ class AdminServiceTest {
     @Mock
     private JwtProvider jwtProvider;
     private AdminService adminService;
-    private PostRequestDto postRequestDto;
-    private AdminRequestDto adminRequestDto;
+    private PostRequest postRequest;
+    private AdminRequest adminRequest;
 
     @BeforeEach
     public void setUp() {
@@ -76,9 +76,9 @@ class AdminServiceTest {
     @Test
     public void addPostTest() throws Exception {
         //given
-        postRequestDto = new PostRequestDto("홍콩반점", "중식", "중식, 맛집, 경기도", "hong", 12.3, 20.1);
+        postRequest = new PostRequest("홍콩반점", "중식", "중식, 맛집, 경기도", "hong", 12.3, 20.1);
         //when
-        adminService.addPost(postRequestDto);
+        adminService.addPost(postRequest);
         //then
         postRepository.findById(1L);
     }
@@ -87,9 +87,9 @@ class AdminServiceTest {
     @Test
     public void adminLoginTest() throws Exception {
         //given
-        adminRequestDto = new AdminRequestDto("kevin0928@naver.com", "123123123");
+        adminRequest = new AdminRequest("kevin0928@naver.com", "123123123");
         //when
-        Member member = adminService.login(adminRequestDto);
+        Member member = adminService.login(adminRequest);
         //then
         assertEquals("kevin0928@naver.com", member.getEmail());
         assertEquals("123123123", member.getOauthId());
@@ -98,16 +98,16 @@ class AdminServiceTest {
     @DisplayName("관리자가 아닌 일반 유저가 로그인을 시도하는 경우 테스트")
     @Test
     public void adminLoginTestIfNonAdminUserAttemptsLogin() throws Exception {
-        adminRequestDto = new AdminRequestDto("user@naver.com", "112233");
+        adminRequest = new AdminRequest("user@naver.com", "112233");
 
-        assertThrows(MemberNotFoundException.class, () -> adminService.login(adminRequestDto));
+        assertThrows(MemberNotFoundException.class, () -> adminService.login(adminRequest));
     }
 
     @DisplayName("회원가입 하지 않은 관리자가 로그인을 시도하는 경우 테스트")
     @Test
     public void nonRegisteredAdminLoginTest() throws Exception {
-        adminRequestDto = new AdminRequestDto("hello.com", "112233");
+        adminRequest = new AdminRequest("hello.com", "112233");
 
-        assertThrows(MemberNotFoundException.class, () -> adminService.login(adminRequestDto));
+        assertThrows(MemberNotFoundException.class, () -> adminService.login(adminRequest));
     }
 }
