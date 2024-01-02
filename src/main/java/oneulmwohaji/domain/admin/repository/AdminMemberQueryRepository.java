@@ -1,4 +1,6 @@
-package oneulmwohaji.domain.member.repository;
+package oneulmwohaji.domain.admin.repository;
+
+import static oneulmwohaji.domain.member.entity.QMember.*;
 
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import java.util.Optional;

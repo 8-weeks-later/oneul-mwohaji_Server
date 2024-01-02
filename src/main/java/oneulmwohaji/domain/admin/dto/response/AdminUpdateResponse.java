@@ -12,7 +12,7 @@ import oneulmwohaji.global.oauth.entity.OAuthProvider;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class MemberUpdateResponse {
+public class AdminUpdateResponse {
     private String email;
     private String username;
     private String oauthId;
@@ -20,8 +20,8 @@ public class MemberUpdateResponse {
     private boolean isBan;
     private AccountType accountType;
 
-    public static MemberUpdateResponse of(Member member) {
-        return MemberUpdateResponse.builder()
+    public static AdminUpdateResponse of(Member member) {
+        return AdminUpdateResponse.builder()
                 .email(member.getEmail())
                 .username(member.getUsername())
                 .oauthId(member.getOauthId())

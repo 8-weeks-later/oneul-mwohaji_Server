@@ -8,7 +8,7 @@ import oneulmwohaji.domain.admin.dto.request.PostRequest;
 import oneulmwohaji.domain.member.entity.Member;
 import oneulmwohaji.domain.member.exception.MemberNotFoundException;
 import oneulmwohaji.domain.member.repository.MemberRepository;
-import oneulmwohaji.domain.member.repository.AdminMemberQueryRepository;
+import oneulmwohaji.domain.admin.repository.AdminMemberQueryRepository;
 import oneulmwohaji.domain.post.repository.PostRepository;
 import oneulmwohaji.global.jwt.service.JwtProvider;
 import org.junit.jupiter.api.BeforeEach;

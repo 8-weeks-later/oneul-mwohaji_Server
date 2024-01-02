@@ -10,7 +10,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import oneulmwohaji.domain.admin.dto.request.AdminRequest;
 import oneulmwohaji.domain.admin.dto.request.PostRequest;
-import oneulmwohaji.domain.admin.dto.response.MemberUpdateResponse;
+import oneulmwohaji.domain.admin.dto.response.AdminUpdateResponse;
 import oneulmwohaji.domain.admin.service.AdminService;
 import oneulmwohaji.domain.member.entity.Member;
 import org.springframework.http.ResponseEntity;
@@ -27,10 +27,11 @@ import org.springframework.web.bind.annotation.RestController;
 @Slf4j
 public class AdminController {
     private final AdminService adminService;
+
     @Secured("ROLE_ADMIN")
     @PatchMapping("/admin/modify/userBan")
-    public ResponseEntity<MemberUpdateResponse> modifyUserBan(@RequestParam("id")Long id) {
-        MemberUpdateResponse memberUpdateResponse = adminService.modifyUserBan(id);
+    public ResponseEntity<AdminUpdateResponse> modifyUserBan(@RequestParam("id") Long id) {
+        AdminUpdateResponse memberUpdateResponse = adminService.modifyUserBan(id);
         return ResponseEntity.ok()
                 .body(memberUpdateResponse);
     }
@@ -43,15 +44,9 @@ public class AdminController {
                 .build();
     }
 
-    /*
-    TODO : 관리자 로그인 로직
-     */
     @PostMapping("/admin/signin")
     public ResponseEntity<?> loginAdmin(@RequestBody @Valid AdminRequest adminRequest,
                                         HttpServletResponse httpServletResponse) {
-        log.info(adminRequest.getEmail());
-        log.info(adminRequest.getOauthId());
-
         Member member = adminService.login(adminRequest);
         String accessToken = adminService.createAccessToken(member.getOauthId());
         String refreshToken = adminService.createRefreshToken(member.getOauthId());
