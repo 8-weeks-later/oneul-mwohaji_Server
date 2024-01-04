@@ -13,11 +13,13 @@ import oneulmwohaji.domain.admin.dto.request.PostRequest;
 import oneulmwohaji.domain.admin.dto.response.AdminUpdateResponse;
 import oneulmwohaji.domain.admin.service.AdminService;
 import oneulmwohaji.domain.member.entity.Member;
+import oneulmwohaji.domain.post.dto.response.PostResponse;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -44,6 +46,14 @@ public class AdminController {
                 .build();
     }
 
+    @Secured("ROLE_ADMIN")
+    @PutMapping("/admin/modify/post")
+    public ResponseEntity<?> modifyPost(@RequestParam("id") Long id,
+                                        @RequestBody PostRequest postRequest) {
+        PostResponse postResponse = adminService.modifyPost(id, postRequest);
+        return ResponseEntity.ok(postResponse);
+    }
+
     @PostMapping("/admin/signin")
     public ResponseEntity<?> loginAdmin(@RequestBody @Valid AdminRequest adminRequest,
                                         HttpServletResponse httpServletResponse) {
@@ -57,11 +67,6 @@ public class AdminController {
         return ResponseEntity.noContent()
                 .header(ACCESS_TOKEN, accessToken)
                 .build();
-    }
-
-    @GetMapping("/hello")
-    public String hello() {
-        return "hello";
     }
 
     private Cookie createHttpOnlyCookie(String refreshToken) {

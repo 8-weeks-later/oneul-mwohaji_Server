@@ -1,5 +1,6 @@
 package oneulmwohaji.domain.admin.service;
 
+import java.util.Optional;
 import lombok.RequiredArgsConstructor;
 import oneulmwohaji.domain.admin.dto.request.AdminRequest;
 import oneulmwohaji.domain.admin.dto.request.PostRequest;
@@ -8,7 +9,9 @@ import oneulmwohaji.domain.member.entity.Member;
 import oneulmwohaji.domain.member.exception.MemberNotFoundException;
 import oneulmwohaji.domain.member.repository.MemberRepository;
 import oneulmwohaji.domain.admin.repository.AdminMemberQueryRepository;
+import oneulmwohaji.domain.post.dto.response.PostResponse;
 import oneulmwohaji.domain.post.entity.Post;
+import oneulmwohaji.domain.post.exception.RestaurantNotFoundException;
 import oneulmwohaji.domain.post.repository.PostRepository;
 import oneulmwohaji.global.jwt.service.JwtProvider;
 import org.springframework.stereotype.Service;
@@ -36,6 +39,13 @@ public class AdminService {
         Member member = memberQueryReporitory.findAdminById(adminRequest)
                 .orElseThrow(() -> new MemberNotFoundException());
         return member;
+    }
+
+    public PostResponse modifyPost(Long id, PostRequest postRequest) {
+        Post post = postRepository.findById(id).orElseThrow(() -> new RestaurantNotFoundException());
+        Post modifiedPost = postRequest.modifyOf(id);
+        postRepository.save(modifiedPost);
+        return PostResponse.getPostResponseDto(modifiedPost);
     }
 
     public String createAccessToken(String oauthId) {
