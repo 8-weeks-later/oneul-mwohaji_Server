@@ -1,12 +1,18 @@
 package oneulmwohaji.domain.member.service;
 
+import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
 import oneulmwohaji.domain.member.dto.Response.MemberInfoResponse;
 import oneulmwohaji.domain.member.entity.Member;
 import oneulmwohaji.domain.member.exception.MemberNotFoundException;
 import oneulmwohaji.domain.member.repository.MemberQueryRepository;
 import oneulmwohaji.domain.member.repository.MemberRepository;
+import oneulmwohaji.domain.post.dto.response.PostResponse;
+import oneulmwohaji.domain.post.entity.Post;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -44,5 +50,4 @@ public class MemberService {
 
         return MemberInfoResponse.of(savedMember);
     }
-
 }

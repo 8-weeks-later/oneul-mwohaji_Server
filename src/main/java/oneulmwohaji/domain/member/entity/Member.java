@@ -1,19 +1,28 @@
 package oneulmwohaji.domain.member.entity;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
+import javax.persistence.CascadeType;
+import javax.persistence.CollectionTable;
 import javax.persistence.Column;
+import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import oneulmwohaji.domain.post.entity.Post;
 import oneulmwohaji.global.oauth.entity.OAuthProvider;
 import oneulmwohaji.global.common.entity.BaseEntity;
 import org.springframework.security.core.GrantedAuthority;
@@ -44,7 +53,8 @@ public class Member extends BaseEntity implements UserDetails {
     @Column
     @Enumerated(EnumType.STRING)
     private AccountType accountType;
-
+    @OneToMany(cascade = CascadeType.REMOVE)
+    private List<Post> posts = new ArrayList<>();
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         Set<SimpleGrantedAuthority> authorities = new HashSet<>();
@@ -92,5 +102,10 @@ public class Member extends BaseEntity implements UserDetails {
 
     public void modifyIsBan() {
         this.isBan = !isBan;
+    }
+
+    public void addScrapPost(Post post) {
+        posts.add(post);
+        post.addScrapCount();
     }
 }

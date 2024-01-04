@@ -1,11 +1,19 @@
 package oneulmwohaji.domain.member.controller;
 
+import java.util.List;
+import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
 import oneulmwohaji.domain.member.dto.Request.MemberUpdateNicknameRequest;
 import oneulmwohaji.domain.member.dto.Response.MemberInfoResponse;
 import oneulmwohaji.domain.member.entity.Member;
 import oneulmwohaji.domain.member.service.MemberService;
+import oneulmwohaji.domain.post.dto.response.PostResponse;
+import oneulmwohaji.domain.post.entity.Post;
 import oneulmwohaji.global.jwt.MemberPrincipal;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;

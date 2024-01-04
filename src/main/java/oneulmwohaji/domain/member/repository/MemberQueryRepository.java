@@ -8,6 +8,10 @@ import lombok.RequiredArgsConstructor;
 import oneulmwohaji.domain.member.entity.AccountType;
 import oneulmwohaji.domain.member.entity.Member;
 import oneulmwohaji.domain.member.entity.QMember;
+import oneulmwohaji.domain.post.entity.Post;
+import oneulmwohaji.domain.post.entity.QPost;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Repository;
 
 @Repository
