@@ -40,11 +40,12 @@ public class Post {
     @ElementCollection
     @CollectionTable(name = "post_members", joinColumns = @JoinColumn(name = "post_id"))
     private List<String> memberNames;
-
     @Column
     private int scrapCount;
-
-    // FIXME: 2023-12-12
     @Column
     private String review;
+
+    public void addScrapCount() {
+        this.scrapCount++;
+    }
 }

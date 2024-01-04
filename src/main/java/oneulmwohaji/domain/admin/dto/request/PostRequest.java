@@ -65,4 +65,17 @@ public class PostRequest {
                 .restaurantName(restaurantName)
                 .build();
     }
+
+    public Post modifyOf(Long id) {
+        return Post.builder()
+                .id(id)
+                .point(toPoint())
+                .hashTags(toCategoryList())
+                .categories(toHashTagList())
+                .memberNames(toMemberList())
+                .scrapCount(0)
+                .review(null)
+                .restaurantName(restaurantName)
+                .build();
+    }
 }

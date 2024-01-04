@@ -3,8 +3,10 @@ package oneulmwohaji.domain.post.service;
 import static org.junit.jupiter.api.Assertions.*;
 
 import java.util.List;
+import oneulmwohaji.domain.member.repository.MemberRepository;
 import oneulmwohaji.domain.post.dto.request.UserGeometryInfoRequest;
 import oneulmwohaji.domain.post.dto.response.PostResponse;
+import oneulmwohaji.domain.post.exception.RestaurantNotFoundException;
 import oneulmwohaji.domain.post.repository.PostRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -16,12 +18,14 @@ import org.springframework.boot.test.context.SpringBootTest;
 class PostServiceTest {
     @Autowired
     private PostRepository postRepository;
+    @Autowired
+    private MemberRepository memberRepository;
     private PostService postService;
     private UserGeometryInfoRequest userGeometryInfoRequest;
 
     @BeforeEach
     void setUp() {
-        postService = new PostService(postRepository);
+        postService = new PostService(postRepository, memberRepository);
     }
 
     @DisplayName("사용자의 위치를 기준으로 레스토랑 조회 테스트 : 조회 테스트")
@@ -32,19 +36,19 @@ class PostServiceTest {
         //when
         List<PostResponse> postResponseDtos = postService.getPostsByUserGeometry(userGeometryInfoRequest);
         //then
-        assertEquals(1, postResponseDtos.size());
+        assertEquals(2, postResponseDtos.size());
     }
 
     @DisplayName("사용자의 위치를 기준으로 레스토랑 조회 테스트 : range 안에 레스토랑이 없는 경우 테스트")
     @Test
-    public void getPostsByUserGeometryIfThereIsNoRestraurantInRange()throws Exception {
+    public void getPostsByUserGeometryIfThereIsNoRestraurantInRange() throws Exception {
         //given
         userGeometryInfoRequest = new UserGeometryInfoRequest(47.5665, 26.9780, 10); // 10이면 111 * 10 -> 1.1km이다.
-        //when
-        List<PostResponse> postResponseDtos = postService.getPostsByUserGeometry(userGeometryInfoRequest);
-        //then
-        assertEquals(0, postResponseDtos.size());
+        //when & then
+        assertThrows(RestaurantNotFoundException.class,
+                () -> postService.getPostsByUserGeometry(userGeometryInfoRequest));
     }
+
     @DisplayName("사용자의 위치를 기준으로 레스토랑 조회 테스트 : range 안에 1개의 레스토랑이 있는 경우 테스트")
     @Test
     public void getPostsByUserGeometryIfOneRestraurantInRange() throws Exception {
@@ -53,7 +57,7 @@ class PostServiceTest {
         //when
         List<PostResponse> postResponseDtos = postService.getPostsByUserGeometry(userGeometryInfoRequest);
         //then
-        assertEquals(3, postResponseDtos.size());
+        assertEquals(6, postResponseDtos.size());
     }
 
     @DisplayName("사용자의 위치를 기준으로 레스토랑 조회 테스트 : range 안에 여러 레스토랑이 있는 경우 테스트")
