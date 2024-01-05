@@ -3,6 +3,7 @@ package oneulmwohaji.domain.post.service;
 import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
+import javax.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import oneulmwohaji.domain.member.entity.Member;
@@ -42,17 +43,17 @@ public class PostService {
 
     private List<PostResponse> getPostResponseDto(List<Post> posts) {
         return posts.stream()
-                .map(PostResponse::getPostResponseDto)
+                .map(PostResponse::of)
                 .collect(Collectors.toList());
     }
 
+    @Transactional
     public void scrapPost(Member member, Long id) {
         Post post = postRepository.findById(id).orElseThrow(() -> new RestaurantNotFoundException());
         member.addScrapPost(post);
-        // FIXME: 2024-01-04 post는 redis, scheduled를 이용해 일정 시간마다 저장이 되게 하기
         memberRepository.save(member);
-        postRepository.save(post);
     }
+
 
     public Member getMemberAndScrapList(Long memberId) {
         Member member = memberRepository.findMemberById(memberId).orElseThrow(() -> new MemberNotFoundException());
@@ -68,7 +69,7 @@ public class PostService {
 
         List<PostResponse> postResponses = memberPosts.subList(start, end)
                 .stream()
-                .map(PostResponse::getPostResponseDto)
+                .map(PostResponse::of)
                 .collect(Collectors.toList());
 
         return new PageImpl<>(postResponses, PageRequest.of(page, size), memberPosts.size());

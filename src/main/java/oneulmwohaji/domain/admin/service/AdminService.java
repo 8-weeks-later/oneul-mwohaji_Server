@@ -43,9 +43,9 @@ public class AdminService {
 
     public PostResponse modifyPost(Long id, PostRequest postRequest) {
         Post post = postRepository.findById(id).orElseThrow(() -> new RestaurantNotFoundException());
-        Post modifiedPost = postRequest.modifyOf(id);
+        Post modifiedPost = postRequest.modifyOf(id, post);
         postRepository.save(modifiedPost);
-        return PostResponse.getPostResponseDto(modifiedPost);
+        return PostResponse.of(modifiedPost);
     }
 
     public String createAccessToken(String oauthId) {

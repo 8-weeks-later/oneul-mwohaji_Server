@@ -1,10 +1,12 @@
 package oneulmwohaji.domain.admin.dto.request;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 import javax.validation.constraints.NotNull;
 import oneulmwohaji.domain.post.entity.Post;
+import oneulmwohaji.domain.review.entity.Review;
 import org.locationtech.jts.geom.Coordinate;
 import org.locationtech.jts.geom.GeometryFactory;
 import org.locationtech.jts.geom.Point;
@@ -61,20 +63,24 @@ public class PostRequest {
                 .categories(toHashTagList())
                 .memberNames(toMemberList())
                 .scrapCount(0)
-                .review(null)
+                .visitorReviewScore(0)
+                .visitorReviewCount(0)
+                .reviews(new ArrayList<>())
                 .restaurantName(restaurantName)
                 .build();
     }
 
-    public Post modifyOf(Long id) {
+    public Post modifyOf(Long id, Post post) {
         return Post.builder()
                 .id(id)
                 .point(toPoint())
                 .hashTags(toCategoryList())
                 .categories(toHashTagList())
                 .memberNames(toMemberList())
-                .scrapCount(0)
-                .review(null)
+                .scrapCount(post.getScrapCount())
+                .visitorReviewCount(post.getVisitorReviewCount())
+                .visitorReviewScore(post.getVisitorReviewScore())
+                .reviews(post.getReviews())
                 .restaurantName(restaurantName)
                 .build();
     }

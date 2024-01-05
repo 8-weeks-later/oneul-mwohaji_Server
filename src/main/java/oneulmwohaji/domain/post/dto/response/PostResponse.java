@@ -20,8 +20,10 @@ public class PostResponse {
     private List<String> hashTags;
     private List<String> memberNames;
     private int scrapCount;
+    private double visitorReviewScore;
+    private int visitorReviewCount;
 
-    public static PostResponse getPostResponseDto(Post post) {
+    public static PostResponse of(Post post) {
         return PostResponse.builder()
                 .id(post.getId())
                 .location(getLocation(getX(post.getPoint()), getY(post.getPoint())))
@@ -30,6 +32,8 @@ public class PostResponse {
                 .hashTags(post.getHashTags())
                 .memberNames(post.getMemberNames())
                 .scrapCount(post.getScrapCount())
+                .visitorReviewScore(post.getVisitorReviewScore())
+                .visitorReviewCount(post.getVisitorReviewCount())
                 .build();
     }
 
